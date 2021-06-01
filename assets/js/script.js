@@ -11,8 +11,6 @@ $(document).ready(function () {
         getLocation(zipCode);
         getMovies(zipCode, inputDate, apiKey);
 
-
-
     });
     var distance = "";
     var radius = $("#radius-input").val();
@@ -41,7 +39,6 @@ $(document).ready(function () {
         // var showtimesUrl = baseUrl + '/movies/showings';
         var queryUrl = 'https://maps.googleapis.com/maps/api/geocode/json?components=postal_code:' + zipCode + '&key=AIzaSyArGspblnhF4-hiENSFuiTXDuoRoxS-by8';
 
-
         $.ajax({
             url: queryUrl,
             method: "GET",
@@ -53,16 +50,13 @@ $(document).ready(function () {
 
                 console.log(lat, lon);
 
-
-
-
             },
         });
 
     };
 
 
-    //function to retreive Movies
+    //function to retreive Movies and append to page
     function getMovies(zipCode, inputDate, apiKey) {
         queryUrl = "http://data.tmsapi.com/v1.1/movies/showings?startDate=" + inputDate + "&zip=" + zipCode + "&api_key=" + apiKey;
 
@@ -77,7 +71,7 @@ $(document).ready(function () {
 
 
                 postMovies(response);
-
+                //function to get movie posters and append results on page
                 function postMovies(response) {
 
                     for (var i = 0; i < response.length; i++) {
@@ -85,10 +79,7 @@ $(document).ready(function () {
                         console.log(response[i].title);
                         var title = response[i].title;
                         // var title = title.replace(/\s+/g, '');
-                        console.log(title);
-
-
-
+                       
                         var queryUrl = "https://www.omdbapi.com/?t=" + title + "&apikey=trilogy";
                         console.log(queryUrl);
                         $.ajax({
@@ -96,14 +87,13 @@ $(document).ready(function () {
                             method: "GET",
                             success: function (response) {
 
-
                                 console.log(response)
-                                var imgUrl = resnponse[i].Poster;
+                                var imgUrl = response.Poster;
                                 var image = $("<img>").attr("src", imgUrl);
-                                image.css("padding-left", "20px")
+                                // image.css("padding-left", "20px")
 
                                 // Appending the image
-                                movieDiv.append(image);
+                                $("#movies-view").append(image);
 
                                 // var tile = $('<div>').append($('<img>').attr({ src: response[i].Poster }))
                                 // $("#results-view").append(tile);
@@ -111,27 +101,20 @@ $(document).ready(function () {
 
                             },
                         });
-
-
-
                     }
-
-
                 }
-
-
-
             },
         });
 
 
     };
 
-    //function to get movie posters and append results on page
+    $(".movieDisplay.img").click(function() {
+        $("#movieInfo").append("Hello world");
 
 
 
-
+    })
 
 });
 
