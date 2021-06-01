@@ -19,7 +19,25 @@ $(document).ready(function () {
     var today = new moment().format("YYYY-MM-DD");
 
 
-  
+    //function to get today's date and place it in date input if no input is entered
+    function runToday() {
+
+        // var inputDate = "";
+
+        console.log(today)
+
+        inputDate = $("#date-input").val();
+        if (inputDate === "") {
+            (inputDate = today);
+            $('#date-input').attr({ type: "date", value: today })
+        }
+    };
+    runToday();
+
+   
+    //function to get movie posters and append results on page
+
+
 
 
 
