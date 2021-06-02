@@ -54,6 +54,7 @@ $(document).ready(function () {
 
                 console.log(lat, lon);
                 showWeather(lat, lon, city);
+                showRestaurants(lat, lon);
 
 
             },
@@ -100,7 +101,44 @@ $(document).ready(function () {
         });
 
     };
-    
+    function showRestaurants(lat, lon) {
+
+        radius = $("#radius-input").val();
+        if (radius === "") {
+            (radius = 1000);
+
+        }
+
+        var queryUrl = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=123+main+street&location=" + lat + "," + lon + "&radius=" + radius + "&key=AIzaSyArGspblnhF4-hiENSFuiTXDuoRoxS-by8";
+
+
+        $.ajax({
+            url: queryUrl,
+            method: "GET",
+
+            // We store all of the retrieved data inside "response"
+            success: function (response) {
+                console.log(response);
+
+
+
+                // var temp = Math.round(response.current.temp);
+                // var uvIndex = response.current.uvi;
+                // console.log(temp);
+
+                // //posts infor on screen
+                // // $("#cityDate").html(city + " (" + new Date().toLocaleDateString() + ") <img id=\"icon\" src=\"" + iconURL + "\" alt=\"Weather icon\"/>");
+                // // console.log(temp);
+                // $("#currentTemp").html(" " + temp + "  &degF");
+                // $("#currentHumidity").html(response.current.humidity + "%");
+                // $("#currentWindSpeed").html(response.current.wind_speed + " MPH");
+                // $("#currentUVIndex").html(uvIndex);
+
+            },
+
+
+        });
+    };
 
 
     //function to retreive Movies and append to page
@@ -173,8 +211,8 @@ $(document).ready(function () {
     };
 
     $(document).on("click", ".movieDisplay img", function () {
-        
-       
+
+
 
 
         $(".modal").css("display", "block");
