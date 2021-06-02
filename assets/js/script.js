@@ -102,19 +102,21 @@ $(document).ready(function () {
 
     };
     function showRestaurants(lat, lon) {
-
+        apiKey = "AIzaSyDGK7FOSFthu_6OPkOOFUlFIRIMiMC4lOw";
         radius = $("#radius-input").val();
         if (radius === "") {
             (radius = 1000);
 
         }
 
-        var queryUrl = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=123+main+street&location=" + lat + "," + lon + "&radius=" + radius + "&key=AIzaSyArGspblnhF4-hiENSFuiTXDuoRoxS-by8";
+        var queryUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + lon + "&radius=" + radius + "&type=restaurant&key=" + apiKey;
 
 
         $.ajax({
             url: queryUrl,
             method: "GET",
+            dataType: 'jsonp',
+            cache: false,
 
             // We store all of the retrieved data inside "response"
             success: function (response) {
