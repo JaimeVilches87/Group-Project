@@ -54,8 +54,13 @@ input {
 .close-btn:hover {
     color: darkgray;
 }
-
-.tile {
+/* 
+.movieDisplay {
 display:flex;
 
 }
+.tile {
+    display:flex;
+    flex-direction: column;
+    
+    } */

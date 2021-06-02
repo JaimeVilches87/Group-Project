@@ -1,7 +1,8 @@
 $(document).ready(function () {
 
     // var description;
-    var apiKey = "7byjtqn68yzm6ecsjfmcy9q3";
+
+
 
     //on click of search button to retreive inital user input
     $("#searchBtn").on("click", function () {
@@ -11,7 +12,7 @@ $(document).ready(function () {
         var inputDate = $("#date-input").val();
         console.log(zipCode, radius, inputDate);
         getLocation(zipCode);
-        getMovies(zipCode, inputDate, apiKey);
+        getMovies(zipCode, inputDate);
 
     });
     var distance = "";
@@ -49,17 +50,63 @@ $(document).ready(function () {
                 console.log(response);
                 var lat = response.results[0].geometry.location.lat;
                 var lon = response.results[0].geometry.location.lng;
+                var city = response.results[0].formatted_address;
 
                 console.log(lat, lon);
+                showWeather(lat, lon, city);
+
 
             },
         });
 
     };
 
+    function showWeather(lat, lon) {
+        var APIKey = "2d21806c273ae4d5ad203a6f6347f868";
+        console.log(lat, lon);
+
+        var queryURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=,minutely,hourly,alerts&units=imperial&appid=" + APIKey;
+
+
+        // Second call to the OpenWeatherMap API for one call 
+        $.ajax({
+            url: queryURL,
+            method: "GET",
+
+            // We store all of the retrieved data inside "response"
+            success: function (response) {
+                console.log(response);
+
+
+
+                var temp = Math.round(response.current.temp);
+                var uvIndex = response.current.uvi;
+                console.log(temp);
+
+                //posts infor on screen
+                // $("#cityDate").html(city + " (" + new Date().toLocaleDateString() + ") <img id=\"icon\" src=\"" + iconURL + "\" alt=\"Weather icon\"/>");
+                // console.log(temp);
+                $("#currentTemp").html(" " + temp + "  &degF");
+                $("#currentHumidity").html(response.current.humidity + "%");
+                $("#currentWindSpeed").html(response.current.wind_speed + " MPH");
+                $("#currentUVIndex").html(uvIndex);
+
+
+
+
+            },
+
+
+        });
+
+    };
+    
+
 
     //function to retreive Movies and append to page
     function getMovies(zipCode, inputDate, apiKey) {
+
+        var apiKey = "7byjtqn68yzm6ecsjfmcy9q3";
         queryUrl = "http://data.tmsapi.com/v1.1/movies/showings?startDate=" + inputDate + "&zip=" + zipCode + "&api_key=" + apiKey;
 
 
@@ -74,71 +121,80 @@ $(document).ready(function () {
 
                 postMovies(response);
                 //function to get movie posters and append results on page
-                function postMovies(response) {
 
-
-                    for (var i = 0; i < response.length; i++) {
-
-                        console.log(response[i].title);
-                        var title = response[i].title;
-                        console.log(title);
-                        // var showTime = response[i].showtimes[0].theatre.name;
-                        // console.log(showTime);
-                        // var title = title.replace(/\s+/g, '');
-
-                        var queryUrl = "https://www.omdbapi.com/?t=" + title + "&apikey=trilogy";
-                        console.log(queryUrl);
-                        $.ajax({
-                            url: queryUrl,
-                            method: "GET",
-                            success: function (response) {
-
-                                // description = response.Plot;
-                                console.log(response)
-                                var imgUrl = response.Poster;
-                                var plot = response.Plot;
-                                var rated = response.Rated;
-                                var image = $("<img>").attr("src", imgUrl)
-
-
-                                // Appending the image
-                                $("#movies-view").append(image);
-                                // $("#movie-tile").append(plot, rated);
-
-
-
-                            },
-                        });
-                    };
-
-                    $(document).on("click", ".movieDisplay img", function () {
-
-                        $(".modal").css("display", "block");
-                        $("#description").append(description);
-
-
-
-
-
-
-                    })
-
-                    $(document).on("click", ".close-btn", function () {
-
-                        $(".modal").css("display", "none");
-
-
-
-
-
-                    });
-
-                }
             },
         });
 
 
     };
+
+    function postMovies(response) {
+
+
+        for (var i = 0; i < response.length; i++) {
+
+            console.log(response[i].title);
+            var title = response[i].title;
+            console.log(title);
+            // var showTime = response[i].showtimes[0].theatre.name;
+            // console.log(showTime);
+            // var title = title.replace(/\s+/g, '');
+
+            var queryUrl = "https://www.omdbapi.com/?t=" + title + "&apikey=trilogy";
+            console.log(queryUrl);
+            $.ajax({
+                url: queryUrl,
+                method: "GET",
+                success: function (response) {
+
+                    // description = response.Plot;
+                    console.log(response)
+                    var imgUrl = response.Poster;
+                    // var plot = response.Plot;
+                    // var rated = response.Rated;
+                    var image = $("<img>").addClass('col-lg-2 tile col-md-4 col-sm-6 col-xs-12').attr("src", imgUrl);
+                    // console.log(plot);
+
+
+                    // // Appending the image
+                    // image.append(plot, rated);
+                    $("#img").append(image);
+                    // $("#movies-tile").append(plot, rated);
+
+
+
+                },
+
+
+            });
+        };
+
+
+    };
+
+    $(document).on("click", ".movieDisplay img", function () {
+        
+       
+
+
+        $(".modal").css("display", "block");
+
+
+
+
+    })
+
+
+    $(document).on("click", ".close-btn", function () {
+
+        $(".modal").css("display", "none");
+
+
+
+
+
+    });
+
 
     //function to display movieInfo
     // function showTimes(response) {
