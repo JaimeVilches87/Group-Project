@@ -1,8 +1,10 @@
 $(document).ready(function () {
 
+    // var description;
     var apiKey = "7byjtqn68yzm6ecsjfmcy9q3";
 
-    $("#searchBtn").click(function () {
+    //on click of search button to retreive inital user input
+    $("#searchBtn").on("click", function () {
 
         var zipCode = $("#zip-input").val();
         var radius = $("#radius-input").val();
@@ -74,12 +76,16 @@ $(document).ready(function () {
                 //function to get movie posters and append results on page
                 function postMovies(response) {
 
+
                     for (var i = 0; i < response.length; i++) {
 
                         console.log(response[i].title);
                         var title = response[i].title;
+                        console.log(title);
+                        // var showTime = response[i].showtimes[0].theatre.name;
+                        // console.log(showTime);
                         // var title = title.replace(/\s+/g, '');
-                       
+
                         var queryUrl = "https://www.omdbapi.com/?t=" + title + "&apikey=trilogy";
                         console.log(queryUrl);
                         $.ajax({
@@ -87,21 +93,46 @@ $(document).ready(function () {
                             method: "GET",
                             success: function (response) {
 
+                                // description = response.Plot;
                                 console.log(response)
                                 var imgUrl = response.Poster;
-                                var image = $("<img>").attr("src", imgUrl);
-                                // image.css("padding-left", "20px")
+                                var plot = response.Plot;
+                                var rated = response.Rated;
+                                var image = $("<img>").attr("src", imgUrl)
+
 
                                 // Appending the image
                                 $("#movies-view").append(image);
+                                // $("#movie-tile").append(plot, rated);
 
-                                // var tile = $('<div>').append($('<img>').attr({ src: response[i].Poster }))
-                                // $("#results-view").append(tile);
 
 
                             },
                         });
-                    }
+                    };
+
+                    $(document).on("click", ".movieDisplay img", function () {
+
+                        $(".modal").css("display", "block");
+                        $("#description").append(description);
+
+
+
+
+
+
+                    })
+
+                    $(document).on("click", ".close-btn", function () {
+
+                        $(".modal").css("display", "none");
+
+
+
+
+
+                    });
+
                 }
             },
         });
@@ -109,12 +140,16 @@ $(document).ready(function () {
 
     };
 
-    $(".movieDisplay.img").click(function() {
-        $("#movieInfo").append("Hello world");
+    //function to display movieInfo
+    // function showTimes(response) {
 
+    //     var description = response.longDescription;
+    //     var descrip = $("<p></p>").html(description);
+    //     console.log(description);
+    //     $(".modal-content").append(descrip);
 
+    // }
 
-    })
 
 });
 
