@@ -36,6 +36,7 @@ font-size: 20px;
 
 
 .container {
+    
 opacity: 0.90;
 background-color: white;
 border: 2px solid red;
@@ -83,7 +84,7 @@ font-weight: bold;
 color: darkgray;
 }
 
-.movieDisplay {
-height: 300px;
-background-image: url("../images/popcorn.jpg");
-    
+.sub{
+    font-size: 14px;
+    font-weight: 600;
+}
