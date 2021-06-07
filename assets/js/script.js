@@ -27,8 +27,6 @@ $(document).ready(function () {
 
         function getLocation(zipCode) {
 
-            // var baseUrl = "https://data.tmsapi.com/v1.1";
-            // var showtimesUrl = baseUrl + '/movies/showings';
             var queryUrl = 'https://maps.googleapis.com/maps/api/geocode/json?components=postal_code:' + zipCode + '&key=AIzaSyArGspblnhF4-hiENSFuiTXDuoRoxS-by8';
 
             $.ajax({
@@ -57,8 +55,6 @@ $(document).ready(function () {
         getLocation(zipCode);
         getMovies(zipCode, inputDate);
 
-
-        // getMovies(zipCode, inputDate);
 
     });
 
