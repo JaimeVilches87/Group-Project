@@ -3,8 +3,7 @@
 1. [ Description. ](#desc)
 2. [ Web Address. ](#web-address)
 3. [ Usage tips. ](#usage)
-4. [ Contributing. ](#contributing)
-5. [ License. ](#license)
+4. [ Contributing. ](#adaptations)
 
 <a name="desc"></a>
 ## 1. Description
@@ -47,6 +46,6 @@ https://jaimevilches87.github.io/Group-Project/
 
 ![chuck-page](./assets/images/chuck.jpg)
 
-<a name="contributing"></a>
+<a name="adaptations"></a>
 ## 4. Future Adaptations
 Potential for future enhancements are endless. What started as a fun idea can be utilized to help people deal with Anxiety and Mental health, could be used for  Partnerships between doctors and dispensaries to guide new patients to an "All-In-One" site. Where you can feel confortable planning ideas and educating yourself on the medical attributes of Cannabis.

@@ -35,7 +35,7 @@ $(document).ready(function () {
                 method: "GET",
                 success: function (response) {
 
-                    // console.log(response);
+                    console.log(response);
                     var lat = response.results[0].geometry.location.lat;
                     var lon = response.results[0].geometry.location.lng;
 
@@ -94,7 +94,7 @@ $(document).ready(function () {
             url: queryUrl,
             method: "GET",
             success: function (response) {
-                // console.log(response);
+                console.log(response);
                 // console.log(response[0].title);
                 for (var i = 0; i < response.length; i++) {
                     var movieTitle = response[i].title;
