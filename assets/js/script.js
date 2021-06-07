@@ -1,30 +1,10 @@
 $(document).ready(function () {
 
-    // var description;
+    $("#restaurant, #dispensary, #chuck").hide();
+    // function to run moment js and display date
 
-
-
-    //on click of search button to retreive inital user input
-    $("#searchBtn").on("click", function () {
-
-        var zipCode = $("#zip-input").val();
-        var radius = $("#radius-input").val();
-        var inputDate = $("#date-input").val();
-        console.log(zipCode, radius, inputDate);
-        getLocation(zipCode);
-        getMovies(zipCode, inputDate);
-
-    });
-    var distance = "";
-    var radius = $("#radius-input").val();
-    var today = new moment().format("YYYY-MM-DD");
-
-
-    //function to get today's date and place it in date input if no input is entered
     function runToday() {
-
-        // var inputDate = "";
-
+        var today = new moment().format("YYYY-MM-DD");
         console.log(today)
 
         inputDate = $("#date-input").val();
@@ -35,74 +15,56 @@ $(document).ready(function () {
     };
     runToday();
 
-    //function to get lat and lon coord
-    function getLocation(zipCode) {
 
-        // var baseUrl = "https://data.tmsapi.com/v1.1";
-        // var showtimesUrl = baseUrl + '/movies/showings';
-        var queryUrl = 'https://maps.googleapis.com/maps/api/geocode/json?components=postal_code:' + zipCode + '&key=AIzaSyArGspblnhF4-hiENSFuiTXDuoRoxS-by8';
-
-        $.ajax({
-            url: queryUrl,
-            method: "GET",
-            success: function (response) {
-
-                console.log(response);
-                var lat = response.results[0].geometry.location.lat;
-                var lon = response.results[0].geometry.location.lng;
-                var city = response.results[0].formatted_address;
-
-                console.log(lat, lon);
-                showWeather(lat, lon, city);
-                showRestaurants(lat, lon);
+    // function to collect all user inputs and start api functions
+    $("#searchBtn").on("click", function () {
+        $("#restaurant, #dispensary, #chuck").show();
+        var zipCode = $("#zip-input").val();
+        var radius = $("#radius-input").val();
+        var inputDate = $("#date-input").val();
+        console.log(zipCode, radius, inputDate);
 
 
-            },
-        });
+        function getLocation(zipCode) {
 
-    };
+            // var baseUrl = "https://data.tmsapi.com/v1.1";
+            // var showtimesUrl = baseUrl + '/movies/showings';
+            var queryUrl = 'https://maps.googleapis.com/maps/api/geocode/json?components=postal_code:' + zipCode + '&key=AIzaSyArGspblnhF4-hiENSFuiTXDuoRoxS-by8';
 
-    function showWeather(lat, lon) {
-        var APIKey = "2d21806c273ae4d5ad203a6f6347f868";
-        console.log(lat, lon);
+            $.ajax({
+                url: queryUrl,
+                method: "GET",
+                success: function (response) {
 
-        var queryURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=,minutely,hourly,alerts&units=imperial&appid=" + APIKey;
+                    console.log(response);
+                    var lat = response.results[0].geometry.location.lat;
+                    var lon = response.results[0].geometry.location.lng;
+                    var city = response.results[0].formatted_address;
 
-
-        // Second call to the OpenWeatherMap API for one call 
-        $.ajax({
-            url: queryURL,
-            method: "GET",
-
-            // We store all of the retrieved data inside "response"
-            success: function (response) {
-                console.log(response);
+                    console.log(lat, lon, city);
 
 
+                    // showWeather(lat, lon, city);
+                    showRestaurants(lat, lon);
+                    showDispensary(lat, lon);
+                    chuckNorris();
 
-                var temp = Math.round(response.current.temp);
-                var uvIndex = response.current.uvi;
-                console.log(temp);
+                },
+            });
 
-                //posts infor on screen
-                // $("#cityDate").html(city + " (" + new Date().toLocaleDateString() + ") <img id=\"icon\" src=\"" + iconURL + "\" alt=\"Weather icon\"/>");
-                // console.log(temp);
-                $("#currentTemp").html(" " + temp + "  &degF");
-                $("#currentHumidity").html(response.current.humidity + "%");
-                $("#currentWindSpeed").html(response.current.wind_speed + " MPH");
-                $("#currentUVIndex").html(uvIndex);
+        };
 
-
+        getLocation(zipCode);
+        getMovies(zipCode, inputDate);
 
 
-            },
+        // getMovies(zipCode, inputDate);
 
+    });
 
-        });
-
-    };
+    //function to show restaurants
     function showRestaurants(lat, lon) {
-        apiKey = "AIzaSyDGK7FOSFthu_6OPkOOFUlFIRIMiMC4lOw";
+        apiKey = "AIzaSyC84eLtW-dg2Ud5fxkqdkv2IovQMrQl9jI";
         radius = $("#radius-input").val();
         if (radius === "") {
             (radius = 1000);
@@ -115,36 +77,33 @@ $(document).ready(function () {
         $.ajax({
             url: queryUrl,
             method: "GET",
-            dataType: 'jsonp',
             cache: false,
 
             // We store all of the retrieved data inside "response"
             success: function (response) {
                 console.log(response);
 
+                for (var i = 0; i < 10; i++) {
 
 
-                // var temp = Math.round(response.current.temp);
-                // var uvIndex = response.current.uvi;
-                // console.log(temp);
 
-                // //posts infor on screen
-                // // $("#cityDate").html(city + " (" + new Date().toLocaleDateString() + ") <img id=\"icon\" src=\"" + iconURL + "\" alt=\"Weather icon\"/>");
-                // // console.log(temp);
-                // $("#currentTemp").html(" " + temp + "  &degF");
-                // $("#currentHumidity").html(response.current.humidity + "%");
-                // $("#currentWindSpeed").html(response.current.wind_speed + " MPH");
-                // $("#currentUVIndex").html(uvIndex);
+                    var restaurantName = response.results[i].name;
+                    var rating = response.results[i].rating;
+                    var resAddy = response.results[i].vicinity;
 
+                    // console.log(restaurantName);
+                    var restName = $("<li>").append(restaurantName, "<br>", "Address: ", resAddy, "<br>", "Rating: ", rating);
+
+                    $("#restaurant-name").append(restName);
+
+
+                }
             },
-
-
         });
     };
 
-
-    //function to retreive Movies and append to page
-    function getMovies(zipCode, inputDate, apiKey) {
+    //function to show movies
+    function getMovies(zipCode, inputDate,) {
 
         var apiKey = "7byjtqn68yzm6ecsjfmcy9q3";
         queryUrl = "http://data.tmsapi.com/v1.1/movies/showings?startDate=" + inputDate + "&zip=" + zipCode + "&api_key=" + apiKey;
@@ -154,13 +113,21 @@ $(document).ready(function () {
             url: queryUrl,
             method: "GET",
             success: function (response) {
+                // console.log(response);
 
-                console.log(response);
-                console.log(queryUrl);
+                // console.log(response[0].title);
+
+                for (var i = 0; i < response.length; i++) {
+                    var movieTitle = response[i].title;
+                    var movieDescrip = response[i].longDescription;
+                    var releaseYear = response[i].releaseDate;
+                    var theatre = response[i].showtimes[0].theatre.name;
+                    var movieInfo = $("<li>").append(movieTitle, "<br>", movieDescrip, "<br> Release Date: ", releaseYear, "<br> Playing now at: ", theatre);
+                    $("#movie-views").append(movieInfo);
 
 
-                postMovies(response);
-                //function to get movie posters and append results on page
+                }
+
 
             },
         });
@@ -168,63 +135,107 @@ $(document).ready(function () {
 
     };
 
-    function postMovies(response) {
+    function showDispensary(lat, lon) {
+        apiKey = "AIzaSyC84eLtW-dg2Ud5fxkqdkv2IovQMrQl9jI";
+        radius = $("#radius-input").val();
+        if (radius === "") {
+            (radius = 1000);
+
+        }
+
+        var queryUrl = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=dispensarys&location=" + lat + "," + lon + "&radius=" + radius + "&key=" + apiKey;
+
+        $.ajax({
+            url: queryUrl,
+            method: "GET",
+            cache: false,
+
+            // We store all of the retrieved data inside "response"
+            success: function (response) {
+                console.log(response);
+                console.log(queryUrl);
+
+                for (var i = 0; i < 10; i++) {
 
 
-        for (var i = 0; i < response.length; i++) {
 
-            console.log(response[i].title);
-            var title = response[i].title;
-            console.log(title);
-            // var showTime = response[i].showtimes[0].theatre.name;
-            // console.log(showTime);
-            // var title = title.replace(/\s+/g, '');
+                    var dispensary = response.results[i].name;
+                    var address = response.results[i].formatted_address;
+                    var ratingDis = response.results[i].rating;
 
-            var queryUrl = "https://www.omdbapi.com/?t=" + title + "&apikey=trilogy";
-            console.log(queryUrl);
+
+                    var disName = $("<li>").append(dispensary, "<br>", address, "<br>", "Rating: ", ratingDis);
+
+                    $("#dispensary-name").append(disName);
+
+                }
+            },
+        });
+    };
+
+    function chuckNorris() {
+
+
+        var queryUrl = "https://api.chucknorris.io/jokes/random";
+
+        for (var i = 0; i < 3; i++) {
             $.ajax({
                 url: queryUrl,
                 method: "GET",
+                cache: false,
+
+                // We store all of the retrieved data inside "response"
                 success: function (response) {
-
-                    // description = response.Plot;
-                    console.log(response)
-                    var imgUrl = response.Poster;
-                    // var plot = response.Plot;
-                    // var rated = response.Rated;
-                    var image = $("<img>").addClass('col-lg-2 tile col-md-4 col-sm-6 col-xs-12').attr("src", imgUrl);
-                    // console.log(plot);
-
-
-                    // // Appending the image
-                    // image.append(plot, rated);
-                    $("#img").append(image);
-                    // $("#movies-tile").append(plot, rated);
-
+                    console.log(response);
+                    console.log(queryUrl);
+                    var norris = response.value
+                    var chuckJoke = $("<li>").append(norris);
+                    $("#chuck-joke").append(chuckJoke, "<br>");
 
 
                 },
-
-
             });
-        };
 
+
+        };
 
     };
 
-    $(document).on("click", ".movieDisplay img", function () {
+
+
+    $(document).on("click", "#dispensary", function () {
 
 
 
 
-        $(".modal").css("display", "block");
+        $("#modal-dispensary").css("display", "block");
+
+
+
+
+    });
+    $(document).on("click", "#chuck", function () {
+
+
+
+
+        $("#modal-chuck").css("display", "block");
 
 
 
 
     })
+    $(document).on("click", "#restaurant", function () {
 
 
+
+
+        $("#modal-restaurant").css("display", "block");
+
+
+
+
+    });
     $(document).on("click", ".close-btn", function () {
 
         $(".modal").css("display", "none");
@@ -234,163 +245,4 @@ $(document).ready(function () {
 
 
     });
-
-
-    //function to display movieInfo
-    // function showTimes(response) {
-
-    //     var description = response.longDescription;
-    //     var descrip = $("<p></p>").html(description);
-    //     console.log(description);
-    //     $(".modal-content").append(descrip);
-
-    // }
-
-
 });
-
-
-
-
-// // Initial array of movies
-// var movies = ["The Matrix", "The Notebook", "Mr. Nobody", "The Lion King"];
-
-// // displayMovieInfo function re-renders the HTML to display the appropriate content
-// function displayMovieInfo() {
-
-//     var movie = $(this).attr("data-name");
-//     var queryURL = "https://www.omdbapi.com/?t=" + movie + "&apikey=trilogy";
-
-//     // Creating an AJAX call for the specific movie button being clicked
-//     $.ajax({
-//         url: queryURL,
-//         method: "GET"
-//     }).then(function (response) {
-
-//         // Creating a div to hold the movie
-//         var movieDiv = $("<div class='movie'>");
-
-//         // Storing the rating data
-//         var rating = response.Rated;
-
-//         // Creating an element to have the rating displayed
-
-//         var pOne = $("<p>").text("Rating: " + rating);
-
-//         pOne.css("padding-left", "20px")
-
-//         // Displaying the rating
-//         movieDiv.append(pOne);
-
-//         // Storing the release year
-//         var released = response.Released;
-
-
-
-//         // Creating an element to hold the release year
-//         var pTwo = $("<p>").text("Released: " + released);
-
-
-
-//         // Displaying the release year
-
-//         pTwo.css("padding-left", "20px")
-
-//         movieDiv.append(pTwo);
-
-//         var actors = response.Actors;
-
-//         var actorscast = $("<p>").text("Actors: " + actors)
-
-//         actorscast.css("padding-left", "20px")
-
-//         movieDiv.append(actorscast)
-
-//         // Storing the plot
-//         var plot = response.Plot;
-
-//         // Creating an element to hold the plot
-//         var pThree = $("<p>").text("Plot: " + plot);
-
-//         pThree.css("padding-left", "20px")
-//         // Appending the plot
-//         movieDiv.append(pThree);
-
-//         // Retrieving the URL for the image
-//         var imgURL = response.Poster;
-
-//         // Creating an element to hold the image
-//         var image = $("<img>").attr("src", imgURL);
-//         image.css("padding-left", "20px")
-
-//         // Appending the image
-//         movieDiv.append(image);
-
-//         // Putting the entire movie above the previous movies
-//         $("#movies-view").prepend(movieDiv);
-
-//         movieDiv.css("background-color", "pink")
-
-//         // var responsefull =  $("<div>").text("response:" + JSON.stringify(response));
-
-//         // responsefull.css("margin-top", "20px")
-
-//         // movieDiv.append(responsefull)
-
-//         movieDiv.css("color", "green")
-
-//         movieDiv.css("border", "15px red ridge")
-
-//         movieDiv.css("offset-x", "50px")
-
-//         movieDiv.css("offset-y", "50px")
-
-//         movieDiv.css("blur-radius", "50px")
-
-//     });
-
-// }
-
-// // Function for displaying movie data
-// function renderButtons() {
-
-//     // Deleting the movies prior to adding new movies
-//     // (this is necessary otherwise you will have repeat buttons)
-//     $("#buttons-view").empty();
-
-//     // Looping through the array of movies
-//     for (var i = 0; i < movies.length; i++) {
-
-//         // Then dynamicaly generating buttons for each movie in the array
-//         // This code $("<button>") is all jQuery needs to create the beginning and end tag. (<button></button>)
-//         var a = $("<button>");
-//         // Adding a class of movie-btn to our button
-//         a.addClass("movie-btn");
-//         // Adding a data-attribute
-//         a.attr("data-name", movies[i]);
-//         // Providing the initial button text
-//         a.text(movies[i]);
-//         // Adding the button to the buttons-view div
-//         $("#buttons-view").append(a);
-//     }
-// }
-
-// // This function handles events where a movie button is clicked
-// $("#add-movie").on("click", function (event) {
-//     event.preventDefault();
-//     // This line grabs the input from the textbox
-//     var movie = $("#movie-input").val().trim();
-
-//     // Adding movie from the textbox to our array
-//     movies.push(movie);
-
-//     // Calling renderButtons which handles the processing of our movie array
-//     renderButtons();
-// });
-
-// // Adding a click event listener to all elements with a class of "movie-btn"
-// $(document).on("click", ".movie-btn", displayMovieInfo);
-
-// // Calling the renderButtons function to display the initial buttons
-// renderButtons();
-//     // </script>

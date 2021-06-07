@@ -1,3 +1,37 @@
+body{
+    
+    background: url("../images/smoke.jpg")no-repeat center fixed;
+  background-size: cover;
+  
+
+}
+
+.flex-container {
+display: flex;
+justify-content: space-around;
+}
+
+.title {
+    color: white;
+    text-align: center;
+
+}
+
+.movies{
+   
+display: flex;
+flex-direction: column;
+text-align: center;
+align-items: center;
+}
+li {
+    opacity: 0.80;
+    background-color: white;
+    max-width: 900px;
+    border: 2px solid red;
+border-radius: 5px;
+padding: 25px;
+}
 .movie-btn {
     background-color: aquamarine;
     font-size: 20px;
@@ -5,15 +39,19 @@
 
 
 .container {
-    background-color: rgb(173, 157, 157);
+    opacity: 0.80;
+    background-color: white;
+    border: 2px solid red;
+    border-radius: 5px;
+    padding: 25px;
 }
 
-button,
+/* button,
 div,
 form,
 input {
     margin: 10px;
-}
+} */
 
 .movieDisplay img {
     cursor: pointer;
@@ -21,18 +59,22 @@ input {
 }
 
 .modal {
+    background-color: rgb(5, 5, 5) !important;
+    
     display: none;
     position: fixed; 
-    padding-top: 50px;
+    padding-top: 50px !important;
     left: 0; 
     top: 0;
     width: 100%;
     height: 100%; 
-    background-color: rgb(0, 0, 0);
-    background-color: rgba(0, 0, 0, 0.5);
+    /* background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.5); */
 }
 
 .modal-content {
+    background-color: teal;
+    opacity: 0.8;
     position: relative; 
     background-color: white;
     padding: 20px; 
