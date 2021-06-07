@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,6 +13,85 @@
 <h1>Dinner and a Movie</h1>
 </header>
 
+    <!-- header container containing all input fields and buttons -->
+    <header class="head">
+        <h2 class="title">Smoke, Toke, but don't Choke</h2>
 
+        <!-- input container div -->
+        <div id="movie-form" class="container">
+            <div>
+                <label for="zip-input">Zip code:</label>
+                <input type="search" id="zip-input" class="validate">
+            </div>
+
+            <div>
+                <label for="date-input"><span>Date: </span> </label>
+                <input type="text" id="date-input" class="validate">
+            </div>
+
+            <div>
+                <label for="radius-input">radius:</label>
+                <input type="text" id="radius-input" placeholder="5 miles (optional" class="validate">
+            </div>
+            <div class="flex-container">
+                <button id="searchBtn" type="button">Search</button>
+                <button id="restaurant" type="button">Food</button>
+                <button id="dispensary" type="button">Dispensaries
+                </button>
+                <button id="chuck" type="button">Don't Choke</button>
+            </div>
+        </div>
+
+    </header>
+
+    <!-- dive for 1st results -->
+    <div id="movie-views" class="movies"></div>
+
+    <!-- div for footer and disclaimer -->
+    <div id="footer">
+
+    </div>
+
+    <!-- Modal results -->
+    <div class="modal movies" id="modal-restaurant">
+
+        <span class="close-btn">Close</span>
+
+
+        <div class="modal-content" id="restaurant-name">
+            <p><h4>Restaurants Near Me</h4></p>
+        </div>
+        
+    </div>
+
+    <!-- Modal 2 results -->
+
+    <div class="modal movies" id="modal-dispensary">
+
+        <span class="close-btn">Close</span>
+
+
+        <div class="modal-content" id="dispensary-name">
+            <p><h4>Dispensaries Near Me</h4></p>
+        </div>
+        
+    </div>
+
+    <!-- Modal 3 results -->
+    <div class="modal movies" id="modal-chuck">
+
+        <span class="close-btn">Close</span>
+
+
+        <div class="modal-content" id="chuck-joke">
+            <p><h4>Chuck Norris!</h4></p>
+        </div>
+        
+    </div>
+
+
+
+    <script src="./assets/js/script.js"></script>
 </body>
+
 </html>
