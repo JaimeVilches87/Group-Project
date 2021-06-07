@@ -3,7 +3,7 @@
 1. [ Description. ](#desc)
 2. [ Web Address. ](#web-address)
 3. [ Usage tips. ](#usage)
-4. [ Contributing. ](#adaptations)
+4. [ Future Adaptations ](#adaptations)
 
 <a name="desc"></a>
 ## 1. Description
