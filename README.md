@@ -11,7 +11,7 @@
 
 ### This application is Smoke Sesh Dashboard, created using Google Places API, Javascript, Jquery, Materialize, MomentJs, GraceNote API, ChuckNorris.io API and CSS.
 
-This application is to get information on Cannabis and to plan relaxing activities to do.
+This application is to eventually add information on Cannabis and to plan relaxing activities to do.
 
 ![main-page](./assets/images/home.jpg)
 
@@ -42,6 +42,10 @@ https://jaimevilches87.github.io/Group-Project/
 ![button-page](./assets/images/buttons.jpg)
 ![dispensary-page](./assets/images/dispensary.jpg)
 ![restaurant-page](./assets/images/restaurants.jpg)
+
+### If Don't Choke button is clicked a funny Chuck Norris Joke will pop up to bring a laugh during your smoke session.
+
+![chuck-page](./assets/images/chuck.jpg)
 
 <a name="contributing"></a>
 ## 4. Future Adaptations
